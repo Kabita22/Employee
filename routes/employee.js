@@ -112,7 +112,12 @@ router.get('/employeeSkill/:skill', (req,res,next)=>{
 //Insert employee details in the database
 router.post('/employee', upload.single('image') , (req,res,next)=>{
     request=req.body;
-    if(!request.name || !request.dateOfBirth || !request.salary ||
+    if(req.file == null){
+      var error=new Error("Please attach an image!");
+      error.code=400;
+      next(error);
+    }
+    else if(!request.name || !request.dateOfBirth || !request.salary ||
         !request.skills || !req.file.path){
           var error=new Error("Please enter all the details!");
           error.code=400;
